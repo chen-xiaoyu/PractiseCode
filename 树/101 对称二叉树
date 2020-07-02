@@ -1,7 +1,7 @@
 // 递归的方法
 class Solution {
     public boolean isSymmetric(TreeNode root) {
-        return check(root, root);
+        return check(root, root); //用两颗相同的树去判断
     }
 
     public boolean check(TreeNode p, TreeNode q) {
@@ -25,13 +25,13 @@ class Solution {
         Queue<TreeNode> q = new LinkedList<TreeNode>(); //通过根结点入栈2次，对比两两结点间是否相同
         q.offer(u);
         q.offer(v);
-        while (!q.isEmpty()) {
+        while (!q.isEmpty()) { //值的判断
             u = q.poll();
             v = q.poll();
-            if (u == null && v == null) {
+            if (u == null && v == null) { //存在子节点为空的情况
                 continue;
             }
-            if ((u == null || v == null) || (u.val != v.val)) {
+            if ((u == null || v == null) || (u.val != v.val)) { //特殊情况
                 return false;
             }
 
