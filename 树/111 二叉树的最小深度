@@ -1,0 +1,18 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+ import java.lang.Math;
+class Solution {
+    public int minDepth(TreeNode root) {
+        if(root == null) return 0;//判断特殊条件
+        int leftDepth = minDepth(root.left);
+        int rightDepth = minDepth(root.right);
+        return root.left==null || root.right==null ? leftDepth+rightDepth+1: Math.min(leftDepth,rightDepth)+1;//存在结点为空，和结点都不为空的情况
+    }
+}
