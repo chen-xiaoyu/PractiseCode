@@ -1,0 +1,37 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public List<List<Integer>> levelOrderBottom(TreeNode root) {
+        List<List<Integer>> result = new ArrayList<>(); //[[1,2],[4,5]]这种属于数组表
+        if (root == null) {
+            return result; //返回result相同的函数类型
+        }
+        Queue<TreeNode> q = new LinkedList<>();//queue 先进先出，用offer,add加入元素，poll,remove移除，peek，element获取
+        q.add(root);
+        while (!q.isEmpty()) { 
+            List<Integer> tmp = new ArrayList<>(); //每次都会新建，用来存储数据
+            int len = q.size(); //同一行有几个数字
+            for (int i = 0; i < len; i++) {
+                TreeNode node = q.poll();//将值取出，并移除
+                tmp.add(node.val);
+                if (node.left != null) {
+                    q.add(node.left);
+                }
+                if (node.right != null) {
+                    q.add(node.right);
+                }
+            }
+            // 在索引 0 的位置加入一维数组 tmp
+            // 每次新的数组进来都会被放在开始的位置
+            result.add(0, tmp);//添加树节点的值，用add
+        }
+        return result;
+    }
+}
