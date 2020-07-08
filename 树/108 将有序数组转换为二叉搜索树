@@ -1,0 +1,23 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public TreeNode sortedArrayToBST(int[] nums) {   
+        return sorted(0,nums.length-1,nums);//有返回类型一定要return
+    }
+    
+    private TreeNode sorted(int begin, int end, int[] nums){
+        if(nums==null || nums.length==0||end<begin)  return null;//判断特殊条件
+        int mid = (begin+end)/2;//运用已知的条件进行整合，不可以用length/2，因为这样在递归中序号可能对应不上
+        TreeNode root = new TreeNode(nums[mid]);//root结点可以直接进行创建
+        root.left = sorted(begin,mid-1,nums);
+        root.right = sorted(mid+1,end,nums);
+        return root;
+    }
+}
