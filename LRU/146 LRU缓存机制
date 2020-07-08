@@ -1,0 +1,46 @@
+import java.util.HashMap;
+import java.util.LinkedList;
+ 
+public class LRUCache {
+	int capacity = 0;	
+	int size = 0;	
+	HashMap<Integer, Integer> mapValue = new HashMap<>();//get值
+	LinkedList<Integer> linkedList= new LinkedList<>();//插入和删除
+ 
+    public LRUCache(int capacity) {
+    	this.capacity = capacity;
+    }
+    
+    public int get(int key) {
+    	if(mapValue.containsKey(key)){//包含数据
+    		linkedList.remove(new Integer(key));//先删除
+    		linkedList.addLast(key);//放到队列的尾部
+    		return mapValue.get(key);//获得key的值
+    	}else{
+    		return -1;
+    	}
+    }
+    
+    public void put(int key, int value) {//写入数据
+    	if(mapValue.containsKey(key)){//包含对应的值
+    		linkedList.remove(new Integer(key));//删除
+    		linkedList.addLast(key);//加入新的key和对应的值
+    	}else{
+    		linkedList.addLast(key);//不包含对应的值
+    		size++;
+    	}
+    	if(size>capacity){//判断数据量是否大于容器的最大容量
+    		int removed = linkedList.removeFirst();//删除队列的首部
+    		mapValue.remove(removed);
+    		size--;
+    	}
+    	mapValue.put(key, value);
+    }
+}
+ 
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache obj = new LRUCache(capacity);
+ * int param_1 = obj.get(key);
+ * obj.put(key,value);
+ */
