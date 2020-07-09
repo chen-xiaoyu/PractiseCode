@@ -1,0 +1,4 @@
+//优先顺序：where>group by>having>order by
+# Write your MySQL query statement below
+select Email from Person //从表中选择Email行，从count中判断
+group by Email having count(Email)>1;
