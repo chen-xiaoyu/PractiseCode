@@ -1,0 +1,31 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+//方法1 递归 空间复杂度O（n）
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if(root == null) return null;
+        if(p.val<root.val && q.val<root.val) return lowestCommonAncestor(root.left,p,q);
+        else if(p.val>root.val && q.val>root.val) return lowestCommonAncestor(root.right,p,q);//记得得有return
+        else return root;
+    }
+}
+
+//方法2 迭代 
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        TreeNode node = root;
+        while(node!=null){//结点是否为空，对象为空用null判断；值为空，用isEmpty判断
+            if(p.val<node.val && q.val<node.val) node=node.left;
+            else if(p.val>node.val && q.val>node.val) node=node.right; //注意用node值
+            else return node;
+        }
+        return null;//一定要有return
+    }
+}
