@@ -8,13 +8,13 @@ public class LRUCache {
 	LinkedList<Integer> linkedList= new LinkedList<>();//插入和删除
  
     public LRUCache(int capacity) {
-    	this.capacity = capacity;
+    	this.capacity = capacity;//继承全局变量
     }
     
     public int get(int key) {
-    	if(mapValue.containsKey(key)){//包含数据
+    	if(mapValue.containsKey(key)){//包含数据，函数containsKey
     		linkedList.remove(new Integer(key));//先删除
-    		linkedList.addLast(key);//放到队列的尾部
+    		linkedList.addLast(key);//放到队列的尾部，用来存放key值，以便以O（1）时间获取
     		return mapValue.get(key);//获得key的值
     	}else{
     		return -1;
@@ -27,9 +27,9 @@ public class LRUCache {
     		linkedList.addLast(key);//加入新的key和对应的值
     	}else{
     		linkedList.addLast(key);//不包含对应的值
-    		size++;
+    		size++;//添加一个数，记得加
     	}
-    	if(size>capacity){//判断数据量是否大于容器的最大容量
+    	if(size>capacity){//先执行上面的操作，下一步才判断数据量是否大于容器的最大容量
     		int removed = linkedList.removeFirst();//删除队列的首部
     		mapValue.remove(removed);
     		size--;
