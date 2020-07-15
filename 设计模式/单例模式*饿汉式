@@ -1,7 +1,7 @@
-// 饿汉式单例
+// 饿汉式单例，（立即加载）
 public class Singleton1 {
  
-    // 指向自己实例的私有静态引用，主动创建
+    // 指向自己实例的私有静态引用，主动创建；java里面static一般用来修饰成员变量或函数，有一种特殊用法是用static修饰内部类
     private static Singleton1 singleton1 = new Singleton1();
  
     // 私有的构造方法
