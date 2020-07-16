@@ -1,6 +1,8 @@
-import java.util.Arrays;
+/*
+*最佳情况：T(n) = O(n);最坏情况：T(n) = O(n2);平均情况：T(n) = O(n2)
+*/
 import java.util.Scanner;
-public class Demo01Anonymous {
+public class Sort {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         String t = in.nextLine();
