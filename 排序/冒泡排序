@@ -1,7 +1,8 @@
 //最佳情况：T(n) = O(n);最差情况：T(n) = O(n2);平均情况：T(n) = O(n2)
+
 import java.util.Arrays;
 import java.util.Scanner;
-public class Sort {
+public class Demo01Anonymous {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         String t = in.nextLine();
@@ -12,13 +13,13 @@ public class Sort {
             arr[i] = Integer.parseInt(t.substring(0,1));//Integer.parseInt把()里的内容转换成整数，substring字符串的一个函数，表示返回一个新字符串
             t = t.substring(1);//获取字符串的起始位置，将后面所有的字符串
         }
-        selectSort(arr);
+        bubbleSort(arr);
         for(int j=0;j<len;j++){
             System.out.print(arr[j]);
         }
     }
 
-    public static int[] selectSort(int[] array){
+    public static int[] bubbleSort(int[] array){
         if(array.length==0 || array==null) return array;
         for(int i=0; i<array.length; i++)
             for(int j=0; j<array.length-i-1;j++)
@@ -30,4 +31,5 @@ public class Sort {
         return array;
     }
 }
+
 
