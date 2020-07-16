@@ -1,0 +1,58 @@
+/* 
+*最佳情况：T(n) = O(n);最差情况：T(n) = O(nlogn);平均情况：T(n) = O(nlogn)
+*/
+import java.util.Scanner;
+//主函数，输入输出处理
+public static void main(String[] args) {
+    Scanner in = new Scanner(System.in);
+    String t = in.nextLine();
+    int len = t.length();
+    int[] arr = new int[len];
+    for (int i = 0; i < len; i++) {
+        arr[i] = Integer.parseInt(t.substring(0, 1));//Integer.parseInt把()里的内容转换成整数，substring字符串的一个函数，表示返回一个新字符串
+        t = t.substring(1);//获取字符串的起始位置，将后面所有的字串
+    }
+    mergeSort.sort(arr,0, arr.length-1);
+    for (int j = 0; j < len; j++) {
+        System.out.print(arr[j]);
+        }
+}
+
+public class mergeSort {
+    public static int[] sort(int[] nums, int low, int high) {
+        int mid = (low + high) / 2;
+        if (low < high) {
+            mergeSort(nums, low, mid);            // 左边
+            mergeSort(nums, mid + 1, high);// 右边
+            merge(nums, low, mid, high); // 左右归并
+        }
+        return nums;
+    }
+
+    public static void merge(int[] nums, int low, int mid, int high) {
+        int[] temp = new int[high - low + 1];
+        int i = low;// 左指针
+        int j = mid + 1;// 右指针
+        int k = 0;
+
+        while (i <= mid && j <= high) {// 把较小的数先移到新数组中
+            if (nums[i] <= nums[j]) {
+                temp[k++] = nums[i++];
+            } else {
+                temp[k++] = nums[j++];
+            }
+        }
+
+        while (i <= mid) {// 把左边剩余的数移入数组
+            temp[k++] = nums[i++];
+        }
+
+        while (j <= high) { // 把右边边剩余的数移入数组
+            temp[k++] = nums[j++];
+        }
+
+        for (int l = 0; l < temp.length; l++) {// 把新数组中的数覆盖nums数组
+            nums[l + low] = temp[l];
+        }
+    }
+}
