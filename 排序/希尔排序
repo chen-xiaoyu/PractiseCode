@@ -1,1 +1,39 @@
+/*
+*最佳情况：T(n) = O(nlog2 n);最坏情况：T(n) = O(nlog2 n);平均情况：T(n) =O(nlog2n)
+*/
+import java.util.Scanner;
+public class Demo01Anonymous {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        String t = in.nextLine();
+        int len = t.length();
+        int[] arr = new int[len];
 
+        for(int i=0; i<len;i++){
+            arr[i] = Integer.parseInt(t.substring(0,1));//Integer.parseInt把()里的内容转换成整数，substring字符串的一个函数，表示返回一个新字符串
+            t = t.substring(1);//获取字符串的起始位置，将后面所有的字符串
+        }
+        shellSort(arr);
+        for(int j=0;j<len;j++){
+            System.out.print(arr[j]);
+        }
+    }
+
+    public static int[] shellSort(int[] array){
+        if(array.length==0 || array==null) return array;
+        int temp, gap = array.length/2;//初始化
+        while(gap>0){
+            for(int i=gap;i<array.length;i++){//从第一组后面开始
+                temp = array[i];
+                int preIndex = i-gap;//涉及到了第一组数据
+                while(preIndex>=0 && array[preIndex]>temp){//移动位置
+                    array[preIndex+gap] = array[preIndex];
+                    preIndex-=gap;
+                }
+                array[preIndex+gap] =temp;
+            }
+            gap/=2;
+        }
+        return array;
+    }
+}
