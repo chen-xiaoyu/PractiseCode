@@ -1,0 +1,25 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    int max = Integer.MIN_VALUE;
+    public int maxPathSum(TreeNode root) {
+        if(root == null) return 0;
+        dfs(root);
+        return max;
+    }
+
+    private int dfs(TreeNode root){
+        if(root == null) return 0;
+        int leftMax=Math.max(0,dfs(root.left));//计算左/右边分支最大值，右边分支如果为负数还不如不选择
+        int rightMax=Math.max(0,dfs(root.right));
+        max = Math.max(max, leftMax+rightMax+root.val); //left->root->right 作为路径与历史最大值做比较
+        return root.val+Math.max(leftMax,rightMax);// 返回经过root的单边最大分支给上游
+    }
+}
