@@ -1,0 +1,23 @@
+/**
+*哈希表统计： 遍历字符串 ss 时，使用哈希表（记为 dicdic ）统计 各字符最后一次出现的索引位置 。
+*左边界 ii 获取方式： 遍历到 s[j]s[j] 时，可通过访问哈希表 dic[s[j]]dic[s[j]] 获取最近的相同字符的索引 ii 。
+*复杂度分析：
+*时间复杂度 O(N)O(N) ： 其中 NN 为字符串长度，动态规划需遍历计算 dpdp 列表。
+*空间复杂度 O(1)O(1) ： 字符的 ASCII 码范围为 00 ~ 127127 ，哈希表 dicdic 最多使用 O(128) = O(1)O(128)=O(1) 大小的额外空间。
+*/
+import java.util.*;
+import java.lang.*;
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        if(s==null ||s.length()==0) return 0;
+        Map<Character, Integer> dic = new HashMap<>();//HashMap设置字符串字典
+        int result=0,temp=0;//设置当前值和上一个位置的值
+        for(int i=0;i<s.length();i++){
+            int j = dic.getOrDefault(s.charAt(i),-1);//getOrDefault是获得默认值，或最新所在的位置
+            dic.put(s.charAt(i),i);//更新哈希表
+            temp=temp<i-j?temp+1:i-j;
+            result =Math.max(result,temp);
+        }
+        return result;
+    }
+}
