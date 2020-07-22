@@ -1,0 +1,52 @@
+import java.util.*;
+public class Main {
+    //输入输出处理
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        int root = scanner.nextInt();
+        //happy值数组
+        int[] happy = new int[n];
+        for(int i = 0; i < n; i++) {
+            happy[i] = scanner.nextInt();
+        }
+        //设置u，v值
+        ArrayList<Integer>[] arr = new ArrayList[n];
+        int u, v;
+        for(int i = 0; i < n-1; i++) {
+            u = scanner.nextInt() - 1;//-1得到数组下标
+            v = scanner.nextInt();
+            if (arr[u] == null) {
+                arr[u] = new ArrayList<>();//若为空，加一个空数组
+            }
+            arr[u].add(v);
+        }//建立上下级关系
+        scanner.close();//关闭输入
+        int d = maxHappy(happy, arr, root)[0];//获得maxHappy的最大值
+        System.out.println(d);
+    }
+    
+    public static int[] maxHappy(int[] happy, ArrayList<Integer>[] tree, int root) {
+        if (tree[root-1] == null) {
+            return new int[]{happy[root-1],0}; //获得下标为root-1的happy值，说明该员工参加
+        }
+        else {
+            int[] child;
+            int happy1 = happy[root-1];
+            int happy2 = 0;
+
+            for(int i = 0; i < tree[root-1].size(); i++){
+                child = maxHappy(happy, tree, tree[root-1].get(i));
+                happy1 += child[1];
+                happy2 += child[0];
+            }
+
+            if (happy1 > happy2) {
+                return new int[] {happy1, happy2};
+            }
+            else {
+                return new int[] {happy2, happy2};
+            }
+        }
+    }
+}
