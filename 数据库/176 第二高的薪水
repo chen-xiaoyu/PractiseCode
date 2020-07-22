@@ -1,4 +1,5 @@
 // 如果没有第二高的成绩，返回空值，所以这里用判断空值的函数（ifnull）函数来处理特殊情况。
+//使用distinct去掉多余的重复记录
 # Write your MySQL query statement below
 select ifNull(
     (select distinct salary from Employee
