@@ -1,0 +1,53 @@
+import java.util.*;
+class Solution {
+    //设置全局变量
+    private int n;
+    private List<List<String>> result;
+    private List<String> board;
+
+    public List<List<String>> solveNQueens(int n) {//初始化
+        this.n = n; //this.n代表是这个类的实例的变量
+        result = new ArrayList<>();
+        board = new ArrayList<>();
+        StringBuilder sb = new StringBuilder();
+        //append方法就是将字符串追加到当前StringBuilder实例的结尾
+        for(int i = 0; i<n; i++) sb.append('.');
+        for(int j =0; j<n; j++) board.add(sb.toString());//将棋盘格初始化为'.'
+        backtrack(0);//第0行开始
+        return result;
+    }
+
+    private void backtrack(int row){
+        if(row==n){
+            result.add(new ArrayList(board));//触发结束条件
+            return;
+        }
+        for(int col =0 ;col<n; col++){
+            if(!isVaild(row,col)) continue;//排除不合法的选择
+            setChar(row,col,'Q');//做选择
+            backtrack(row+1);//进入下一行决策
+            setChar(row,col,'.');//撤销选择
+        }
+    }
+
+    private boolean isVaild(int row, int col){
+        for(int i=0;i<row;i++){//判断所在列是否涵盖'Q'
+            if(board.get(i).charAt(col)=='Q') return false;
+        }
+        //检查左上方是否有皇后互相冲突
+        for(int i=row-1,j=col-1;i>=0&&j>=0;i--,j--){
+            if(board.get(i).charAt(j)=='Q') return false;
+        }
+        //检查左上方是否有皇后互相冲突
+        for(int i=row-1,j=col+1;i>=0&&j<n;i--,j++){
+            if(board.get(i).charAt(j)=='Q') return false;
+        }
+        return true;
+    }
+
+    private void setChar(int row, int col ,char c){
+        StringBuilder sb = new StringBuilder(board.get(row));//设置
+        sb.setCharAt(col,c);
+        board.set(row,sb.toString());
+    }
+}
