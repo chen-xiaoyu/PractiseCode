@@ -1,18 +1,22 @@
+/**
+*1.是否线程安全
+*2.是否懒加载
+*3.是否能反射破坏
+*/
+
 // 懒汉式单例
-public class Singleton2 {
- 
-    // 指向自己实例的私有静态引用
-    private static Singleton2 singleton2;
- 
+public class Singleton {
     // 私有的构造方法
-    private Singleton2(){}
+    private Singleton(){}
+    // 指向自己实例的私有静态引用，初始化对象为null;
+    private static Singleton instance = null;
  
     // 以自己实例为返回值的静态的公有方法，静态工厂方法
-    public static Singleton2 getSingleton2(){
-        // 被动创建，在真正需要使用时才去创建
-        if (singleton2 == null) {
-            singleton2 = new Singleton2();
+    public static Singleton getInstance(){
+        // 被动创建，在真正需要使用时才去创建。注意：多线程调用时，可能多个线程同时进入，导致线程不安全
+        if (instance == null) {
+            instance = new Singleton();
         }
-        return singleton2;
+        return instance;
     }
 }
