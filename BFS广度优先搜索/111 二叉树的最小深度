@@ -12,4 +12,34 @@ class Solution {
     }
 }
 
-//BFS
+//BFS，递归算法
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public int minDepth(TreeNode root) {
+        if(root == null) return 0;
+        Queue<TreeNode> q =new LinkedList<>();//链表两头删减
+        q.offer(root);//添加根结点
+        int depth= 1;//有根结点，就有depth=1
+        while(!q.isEmpty()){
+            int sz = q.size();
+            for(int i =0 ;i<sz; i++){
+                TreeNode curr = q.poll();//取出结点值
+
+            if(curr.left ==null && curr.right==null)
+            return depth;
+            if(curr.left !=null) q.offer(curr.left);
+            if(curr.right != null) q.offer(curr.right);
+            }
+            depth++;
+        }
+        return depth;
+    }
+}
