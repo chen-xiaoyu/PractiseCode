@@ -1,0 +1,15 @@
+/**
+*除了用迭代做，还可以用BFS做
+*/
+//迭代
+import java.lang.Math;
+class Solution {
+    public int minDepth(TreeNode root) {
+        if(root == null) return 0;
+        int leftDepth = minDepth(root.left);
+        int rightDepth = minDepth(root.right);
+        return root.left==null || root.right==null ? leftDepth+rightDepth+1: Math.min(leftDepth,rightDepth)+1;
+    }
+}
+
+//BFS
