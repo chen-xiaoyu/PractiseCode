@@ -1,0 +1,24 @@
+class Solution {
+    public int maxProfit(int[] prices) {
+        if(prices==null || prices.length==0) return 0;
+        int len = prices.length;
+        int maxK =2;
+        //需要设置正无穷（maxK+1）
+        int[][][] dp = new int[len][maxK+1][2];
+        //不知道什么时候会买，就用最小正整数表示
+        for(int i=0;i<len;i++){
+            for(int j=maxK;j>=1;j--){
+                if(i==0){
+                    dp[i][j][0]=0;
+                    dp[i][j][1]=-prices[0];
+                    continue;//退出此次循环
+                }
+                //买才算次数的变化，与前一天做对比
+                dp[i][j][0] = Math.max(dp[i-1][j][0],dp[i-1][j][1]+prices[i]);
+                dp[i][j][1] = Math.max(dp[i-1][j][1],dp[i-1][j-1][0]-prices[i]);
+            }
+        }
+        //指标为i-1表示有i个数
+        return dp[len-1][maxK][0];
+    }
+}
