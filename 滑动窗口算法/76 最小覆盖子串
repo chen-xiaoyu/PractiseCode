@@ -1,1 +1,43 @@
+class Solution {
+    public String minWindow(String s, String t) {
+        // if(s.length()==0 || t.legnth()==0) return "";
+        //need存储t的<字符,出现次数>,visited存储<s中与t中字符相同的字符,出现次数>
+        HashMap<Character, Integer> needs = new HashMap<>();
+        HashMap<Character, Integer> visited = new HashMap<>();
+        int left=0;int right=0; int minLength=Integer.MAX_VALUE;
+        int start=0; int count=0; 
 
+        for(int i=0;i<t.length();i++){
+            needs.put(t.charAt(i),needs.getOrDefault(t.charAt(i),0)+1);
+        }
+        
+        while(right<s.length()){
+            char temp = s.charAt(right)
+            //判断needs是否包含需要的值
+            if(needs.containsKey(temp)){
+                visited.put(temp,visited.getOrDefault(temp,0)+1);
+                if(visited.get(temp).compareTo(needs.get(temp))==0){
+                    count++;
+                }
+            }
+            //不满足情况，right继续前行
+            right++;
+            //当窗口已经包含所有值时，进行优化
+            while(count==needs.size()){
+                if(right-left<minLength){
+                    start = left;
+                    minLength = right-start;
+                }
+                char c = s.charAt(left);
+                if(needs.containsKey(c)){
+                    visited.put(c,visited.getOrDefault(c,1)-1);
+                    if(visited.get(c)<needs.get(c)){
+                        count--;
+                    }
+                }
+                left++;
+            }
+        }
+        return minLength == Integer.MAX_VALUE ? "":s.substring(start, start+minLength);
+    }
+}
