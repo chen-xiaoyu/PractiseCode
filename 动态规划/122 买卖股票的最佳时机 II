@@ -6,7 +6,6 @@ class Solution {
         //初始化原始值
         dp[0][0]=0;
         dp[0][1]=-prices[0];
-        int max = Integer.MIN_VALUE;
         for(int i =1; i<prices.length; i++){
             //进行了不断的累加股票盈利
             dp[i][0] = Math.max(dp[i-1][0], dp[i-1][1]+prices[i]);
