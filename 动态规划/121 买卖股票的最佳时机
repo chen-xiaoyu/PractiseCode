@@ -1,0 +1,15 @@
+class Solution {
+    public int maxProfit(int[] prices) {
+        if(prices==null || prices.length==0) return 0;
+        int n = prices.length;
+        //初始化，只与前一个状态相关
+        int dp_0 = 0, dp_1 =-prices[0];
+        for(int i=0;i<n;i++){
+            dp_0 = Math.max(dp_0,dp_1+prices[i]);
+            //只允许买一次
+            dp_1 = Math.max(dp_1,-prices[i]);
+        }
+        //因为只允许买卖一次，所以不需要多次判断
+        return Math.max(dp_0, dp_1);
+    }
+}
