@@ -1,0 +1,50 @@
+//暴力解法，时间复杂度高
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+       int[] result = new int[2];
+       if(nums==null||nums.length==0) return result;
+       for(int i = 0 ;i<nums.length-1;i++){
+           for(int j=i+1;j<nums.length;j++){
+               if(nums[j]==target-nums[i]){
+                   return new int[] {i,j};
+               }
+           }
+       }
+       return new int[]{-1,-1};
+    }
+}
+
+//2遍哈希表，时间复杂度降为O（n）
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        if(nums==null||nums.length==0) return new int[2];
+        Map<Integer, Integer> map = new HashMap<>();
+        for(int i= 0;i<nums.length;i++){
+            map.put(nums[i],i);
+        }
+        for(int j =0; j<nums.length; j++){
+            int temp = target - nums[j];
+            if(map.containsKey(temp)&&map.get(temp)!=j){
+                return new int[]{j,map.get(temp)};
+            }
+        }
+        return new int[]{-1,-1};
+    }
+}
+
+//遍历一遍hash表，并且进行当前值与之前的值和进行判断是否符合要求
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        if(nums==null||nums.length==0) return new int[2];
+        Map<Integer, Integer> map = new HashMap<>();
+        for(int i= 0;i<nums.length;i++){
+            //先判断后放入数组，未放入的数字
+            int temp = target - nums[i];
+            if(map.containsKey(temp)){
+                return new int[]{map.get(temp),i};
+            }
+            map.put(nums[i],i);
+        }
+        return new int[]{-1,-1};
+    }
+}
