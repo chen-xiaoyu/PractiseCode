@@ -1,0 +1,40 @@
+/**
+*解法1： 重复子问题（HashMap）+计算孙子节点+迭代
+*我们发现爷爷在计算自己能偷多少钱的时候，同时计算了 4 个孙子能偷多少钱，也计算了 2 个儿子能偷多少钱。这样在儿子当爷爷时，就会产生重复计算一遍孙子节点。
+*于是乎我们发现了一个动态规划的关键优化点
+*重复子问题
+*我们这一步针对重复子问题进行优化，我们在做斐波那契数列时，使用的优化方案是记忆化，但是之前的问题都是使用数组解决的，把每次计算的结果都存起来，下次如果再来计算，就从缓存中取，不再计算了，这样就保证每个数字只计算一次。
+*由于二叉树不适合拿数组当缓存，我们这次使用哈希表来存储结果，TreeNode 当做 key，能偷的钱当做 value
+
+*解法2：当前节点与左右子节点+数组 
+*每个节点可选择偷或者不偷两种状态，根据题目意思，相连节点不能一起偷
+*当前节点选择偷时，那么两个孩子节点就不能选择偷了
+*当前节点选择不偷时，两个孩子节点只需要拿最多的钱出来就行(两个孩子节点偷不偷没关系)
+*我们使用一个大小为 2 的数组来表示 int[] res = new int[2] 0 代表不偷，1 代表偷
+*/
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public int rob(TreeNode root) {
+        //设置大小为2的数组表示，当前节点取1还是不取0
+        int[] result = robInternal(root);
+        return Math.max(result[0],result[1]);
+    }
+
+    private int[] robInternal(TreeNode root){
+        if(root == null) return new int[2];
+        int[] result = new int[2];
+        int[] left = robInternal(root.left);
+        int[] right = robInternal(root.right);
+        result[0] = Math.max(left[0],left[1])+Math.max(right[0],right[1]);
+        result[1] = left[0]+right[0]+root.val;
+        return result;
+    }
+}
