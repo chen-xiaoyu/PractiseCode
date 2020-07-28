@@ -1,0 +1,38 @@
+class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> result = new ArrayList<List<Integer>>();
+        if(nums==null || nums.length==0) return result;
+        Arrays.sort(nums);
+        int n = nums.length;
+        for(int first = 0; first<n; first++) {
+            //判断条件是否数字重复，条件判断，大于0，因为要求不重复的三元组
+            if(first>0 && nums[first]==nums[first-1]){
+                continue;
+            }
+            int third = n-1;
+            int target = -nums[first];
+            for(int second = first+1;second<n;second++){
+                //判断条件是否数字重复，因为要求不重复的三元组
+                if(second> first+1 && nums[second]==nums[second-1]){
+                    continue;
+                }
+                //采用while语句，让不要轻易跳出循环
+                while(third>second && nums[third]+nums[second]>target){
+                    third--;
+                }
+                if(second==third){
+                    break;
+                } 
+                if(third>second &&nums[third]+nums[second]==target){
+                    List<Integer> res = new ArrayList<Integer>();
+                    //不是数组，所以用add方法
+                    res.add(nums[first]);
+                    res.add(nums[second]);
+                    res.add(nums[third]);
+                    result.add(res);
+                }
+            }
+        }
+        return result;
+    }
+}
