@@ -1,5 +1,26 @@
 class Solution {
     public int findMinArrowShots(int[][] points) {
-        
+       if(points.length==0 || points == null) return 0;
+       //排序，按尾部坐标排序
+       Arrays.sort(points, new Comparator<int[]>(){
+           //Override大写
+           @Override
+           public int compare(int[] a, int[] b){
+               //return 语句
+               return a[1]-b[1];
+           }
+       });
+
+       int count=1;
+       int Xstart, Xend, firstEnd = points[0][1];
+       for(int[] p:points){
+           Xstart = p[0];
+           Xend = p[1];
+           if(Xstart>firstEnd){
+               count++;
+               firstEnd = Xend;
+           }
+       }
+       return count;
     }
 }
