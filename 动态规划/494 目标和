@@ -1,0 +1,32 @@
+/**
+*该问题可以转换为 Subset Sum 问题，从而使用 0-1 背包的方法来求解。
+*可以将这组数看成两部分，P 和 N，其中 P 使用正号，N 使用负号，有以下推导：
+*sum(P) - sum(N) = target
+*sum(P) + sum(N) + sum(P) - sum(N) = target + sum(P) + sum(N)
+*2 * sum(P) = target + sum(nums)
+*因此只要找到一个子集，令它们都取正号，并且和等于 (target + sum(nums))/2，就证明存在解。
+*/
+class Solution {
+public int findTargetSumWays(int[] nums, int S) {
+    if(nums.length==0 || nums==null) return 0;
+    int sum=0;
+    for(int n: nums){
+        sum+=n;
+    }
+    //判断解是否成立
+    if((S+sum)%2==1 || S>sum) return 0;
+    int target = (S+sum)/2;
+    //设置正无穷
+    int[] dp = new int[target+1];
+    //初始化函数
+    dp[0]=1;//存在一个解最起码.表示从前0个物品中选取若干放入背包承重量为0的恰好装满的方案数
+    //dp[0]只是用来初始化的,i需要和nums.length<=
+    for(int i=1;i<=nums.length;i++){
+        //j的大小要不小于nums[i-1]，才能放入新的数组
+        for(int j=target;j>=nums[i-1];j--){
+            dp[j]+=dp[j-nums[i-1]];
+        }
+    }
+    return dp[target];
+    }
+}
