@@ -1,5 +1,23 @@
 class Solution {
     public int eraseOverlapIntervals(int[][] intervals) {
-
+        if(intervals==null || intervals.length==0) return 0;       
+        Arrays.sort(intervals, new Comparator<>(){
+            @Override
+            public int compare(int[] a, int[] b){
+                return a[1]-b[1];
+            }
+        });
+        int count =1;//至少有一个区间不相交
+        int Xstart = 0, Xend =0, firstEnd = intervals[0][1];
+        for(int[] i:intervals){
+            Xstart = i[0];
+            Xend = i[1];
+            //边界相互接触，且没有相互重叠，所以有等号
+            if(firstEnd<=Xstart){
+                count++;
+                firstEnd = Xend;
+            }
+        }
+        return intervals.length-count;
     }
 }
