@@ -1,0 +1,34 @@
+class Solution {
+    //建立备忘录,Integer包装类可以是null
+    Integer[][] memo = null;
+    public int superEggDrop(int K, int N) {
+        memo = new Integer[K+1][N+1];
+        return dp(K,N);
+    }
+
+    public int dp(int K, int N){
+        //特殊条件判断
+        if(K==1) return N;
+        if(N<=0) return 0;
+        //查看备忘录中是否存在
+        if(memo[K][N]!=null) return memo[K][N];
+        int temp=Integer.MAX_VALUE;
+        //二分查找法
+        int low=1, high=N;
+        while(high>=low){
+            int mid = (low+high)/2;//从中间扔
+            int eggSave = dp(K,N-mid);
+            int eggBreak = dp(K-1,mid-1);
+            if(eggBreak>eggSave){
+                high =mid-1;
+                temp =Math.min(temp, eggBreak+1);
+            }else{
+                low = mid+1;
+                temp =Math.min(temp, eggSave+1);
+            }  
+        }
+        //！添加到备忘录中
+        memo[K][N]=temp;
+        return temp;
+    }
+}
