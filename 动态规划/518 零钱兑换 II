@@ -1,0 +1,19 @@
+class Solution {
+    public int change(int amount, int[] coins) {
+        if(amount<0) return 0;
+        //当钱数为0，没有硬币时还是存在一种解法
+        int[] dp=new int[amount+1];
+        dp[0]=1;
+        //注意钱从1 开始，因为0为基本条件
+        //从硬币数作为外循环
+        for(int j=0; j<coins.length;j++){
+            for(int i=1; i<=amount; i++){
+                //判断钱是不是已经满额了
+                if(i>=coins[j]){
+                    dp[i] = dp[i] + dp[i-coins[j]];
+                }
+            }
+        }
+        return dp[amount];
+    }
+}
