@@ -1,0 +1,47 @@
+class Solution {
+    private int index = 0;//全局加个修饰符
+    public int calculate(String s) {
+        Deque<Integer> stack = new LinkedList<>();
+        int num=0; 
+        char sign = '+';
+        while(index<s.length()){
+            char c = s.charAt(index);
+            if(Character.isDigit(c)){
+                num =num*10+(c-'0');
+            }
+            if(c=='('){
+                index++;//往前走
+                num=calculate(s);
+            }
+            if(!Character.isDigit(c)&& c!=' ' || index == s.length()-1){
+                int pre = 0;
+                switch(sign){
+                    case '+': 
+                        stack.push(num);
+                        break;
+                    case '-': 
+                        stack.push(-num);
+                        break;
+                    case '*':
+                        pre = stack.pop();
+                        stack.push(pre * num);
+                        break;
+                    case '/':
+                        pre = stack.pop();
+                        stack.push(pre / num);
+                }
+                num=0;
+                sign=c;
+            }
+            if(c==')'){
+                break;
+            }
+            index++;
+        }
+        int result=0;
+        while(!stack.isEmpty()){
+            result+=stack.pop();
+        } 
+        return result;  
+    }
+}
