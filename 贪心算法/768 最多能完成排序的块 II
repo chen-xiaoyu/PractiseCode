@@ -1,0 +1,26 @@
+//思路一：
+//设定双指针指向数组头部，判断双指针内数字集合形成的块是否满足排序块条件，并尽量使窗口最小（贪心）。
+//每次形成排序块时计数，并越过此排序块重新指定双指针位置，重复以上步骤直到划分完整个数组。
+//此思路容易理解，但每次确定 11 个块都需要遍历整个数组，在某些极端情况（例如如 [1,2,3,4,5][1,2,3,4,5] ）时间复杂度达到 O(N^2)O(N2) 。
+
+//思路二（本题解采用）：
+//判断是否是排序块只需要用到该块的 元素最大值 headhead 。我们联想到，是否可以遍历一遍数组 arrarr ，动态判断到目前数字 numnum 为止最多能分出多少排序块，并保存每个排序块的最大值 headhead 。每遍历到下个数字 numnum ，动态判断前面所有的排序块是否成立，并更新所有排序块：
+//当某排序块 num < headnum<head ：将此排序块[A]与 num 合并，形成新排序块[A | num]，最大值仍为 headhead ；
+//当某排序块 num >= headnum>=head ：原排序块保留，并新加排序块 [num] 。
+class Solution {
+    public int maxChunksToSorted(int[] arr) {
+        LinkedList<Integer> stack = new LinkedList<>();
+        for(int num:arr){
+            if(!stack.isEmpty()&&num<stack.getLast()){
+                //保存栈中的最大值
+                int head = stack.removeLast();
+                while(!stack.isEmpty()&&num<stack.getLast()) stack.removeLast();
+                stack.addLast(head);
+            }
+            //if else 非此即彼
+            else stack.addLast(num);
+        }
+        //LinkedList的长度是用size();
+        return stack.size();
+    }
+}
