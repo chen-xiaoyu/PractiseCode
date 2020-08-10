@@ -1,0 +1,89 @@
+//最佳情况：T(n) = O(n);最差情况：T(n) = O(n2);平均情况：T(n) = O(n2)
+
+import java.util.Arrays;
+import java.util.Scanner;
+public class Demo01Anonymous {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        String t = in.nextLine();
+        int len = t.length();
+        int[] arr = new int[len];
+
+        for(int i=0; i<len;i++){
+            arr[i] = Integer.parseInt(t.substring(0,1));//Integer.parseInt把()里的内容转换成整数，substring字符串的一个函数，表示返回一个新字符串
+            t = t.substring(1);//获取字符串的起始位置，将后面所有的字符串
+        }
+        bubbleSort(arr);
+        for(int j=0;j<len;j++){
+            System.out.print(arr[j]);
+        }
+    }
+
+    public static int[] bubbleSort(int[] array){
+        if(array.length==0 || array==null) return array;
+        for(int i=0; i<array.length; i++)
+            for(int j=0; j<array.length-i-1;j++)
+                if(array[j]>array[j+1]) {
+                    int temp = array[j];
+                    array[j] = array[j + 1];
+                    array[j + 1] = temp;
+                }
+        return array;
+    }
+}
+
+
+//优化1. 当数列已经有序，并做出标记，那么剩下的几轮排序就不需要执行，提前结束工作。2.优化后续元素已经有序，不需要再多次排序，需要对数列的无序数列和有序区进行界定。
+import java.util.*;
+import java.lang.*;
+
+public class sort {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        String t = in.nextLine();
+        int len = t.length();
+        int[] arr = new int[len];
+        for (int i = 0; i < len; i++) {
+            arr[i] = Integer.parseInt(t.substring(0, 1));//Integer.parseInt把()里的内容转换成整数，substring字符串的一个函数，表示返回一个新字符串
+            t = t.substring(1);//获取字符串的起始位置，将后面所有的字符串
+        }
+        Sort(arr);//len-1是指最后一位数的下角标
+        for (int j = 0; j < arr.length; j++) {
+            System.out.print(arr[j]);
+        }
+    }
+
+    public static int[] Sort(int[] arr) {//进行递归调用
+        if(arr.length<0)
+            return null;
+        //记录最后一次交换的位置
+        int lastExchange =0;
+        //无序数组的边界，每次排序都只需排序到这里为止
+        int sortBorder = arr.length-1;
+        //冒泡排序 与后一个数字作比较
+        for(int i=0;i<arr.length-1;i++){
+            //有序标记，每一轮初始值都是true;
+            boolean isSorted =true;
+            for(int j=0;j<sortBorder;j++){
+                int tmp=0;
+                if(arr[j]>arr[j+1]){
+                    tmp =arr[j];
+                    arr[j]=arr[j+1];
+                    arr[j+1]=tmp;
+                    //因为有元素进行交换，所以不是有序的，标记为false.
+                    isSorted =false;
+                    //更新为最后一次交换元素的位置。
+                    lastExchange=j;
+                }
+            }
+            //更新有序边界的位置
+            sortBorder =lastExchange;
+            if(isSorted){
+                break;
+            }
+        }
+        return arr;
+    }
+}
+
+
