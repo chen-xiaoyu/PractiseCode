@@ -1,0 +1,65 @@
+import java.util.*;
+
+public class sortNextNum {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String str = sc.nextLine();
+        sc.close();
+        //将输入的字符串转为数字
+        int[] arr = new int[str.length()];
+        for(int i=0;i<str.length();i++){
+            //将第i位整成数字
+            arr[i] = Integer.parseInt(str.substring(i,i+1));
+        }
+        int[] num = findNearestNumber(arr);
+        for(int i=0;i<str.length();i++){
+            System.out.print(num[i]);
+        }
+    }
+
+    private static int[] findNearestNumber(int[] num){
+        //1.从后向前查看逆序区域，找到逆序区域的前一位，也就是数字置换的边界
+        int index = findTransferPoint(num);
+        if(index == 0) return null;
+        //2.把逆序区域的前一位和逆序区域中刚刚大于它 的数字交换位置
+        //复制并入参，避免直接修改入参
+        int[] numCopy = Arrays.copyOf(num,num.length);
+        exchangedHead(numCopy,index);
+        //3.把原来的逆序区变为顺序区，确保数为最小的下一位
+        reverse(numCopy,index);
+        return numCopy;
+    }
+
+    private static int findTransferPoint(int[] num){
+        for(int i=num.length-1;i>0;i--){
+            if(num[i]>num[i-1]){
+                return i;//找到逆序的边界
+            }
+        }
+        return 0;
+    }
+
+    private static int[] exchangedHead(int[] num, int index){
+        //逆序区，从后往前找
+        int tem = num[index-1];
+        for(int i = num.length-1;i>=index;i--){
+            //与逆序区的前一位数进行交换
+            if(num[index-1]<num[i]){
+                num[index-1] = num[i];
+                num[i]=tem;
+                break;//跳出此循环
+            }
+        }
+        return num;
+    }
+
+    private static int[] reverse(int[] num, int index){
+        //逆序区交换位置,大数和小数对换
+        for(int i=index, j=num.length-1;i<j;i++,j--){
+            int tem = num[j];
+            num[j] = num[index];
+            num[index] = tem;
+        }
+        return num;
+    }
+}
