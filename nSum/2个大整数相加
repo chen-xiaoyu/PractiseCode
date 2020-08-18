@@ -1,0 +1,57 @@
+import java.util.Scanner;
+
+/*
+* 1. 创建两个整型数组，数组长度是较大整数的位数+1.把每一个整数倒序存储在数组中，整数的个数存于下标为0的位置，最高位存于
+* 数组的尾部。
+* 2. 创建结果数组，结果数组的长度同样是较长整数的位数+1，+1的目的是为了给最高位进位预留。
+* 3. 遍历两个数组，从左到右按照对应下标把元素两两相加。
+* 4. 把result数组的全部元素再次逆序，去掉首位的0，就是最终的结果。
+* */
+public class twoNumSum {
+    public static void main(String[] args) {
+        Scanner sc= new Scanner(System.in);
+        String bigNumA = sc.nextLine();
+        String bigNumB =sc.nextLine();
+        sc.close();
+        //用字符串表示，避免超大数相加
+        System.out.println(bigNumSum(bigNumA,bigNumB));
+    }
+
+    private static String bigNumSum(String numA,String numB){
+        //1. 把两个大整数用数组逆序存储，数组长度位最大长度+1
+        int maxLength = numA.length()>numB.length()? numA.length():numB.length();
+        int[] arrA = new int[maxLength+1];
+        for(int i=0;i<numA.length();i++){
+            arrA[i] = numA.charAt(numA.length()-1-i)-'0';
+        }
+        int[] arrB = new int[maxLength+1];
+        for(int i=0;i<numB.length();i++){
+            arrB[i] = numB.charAt(numB.length()-1-i)-'0';
+        }
+        //2. 构建result数组
+        int[] result = new int[maxLength+1];
+        //3. 遍历数组，按位相加
+        for(int i=0;i<result.length;i++){
+            int temp = result[i];
+            temp += arrA[i];
+            temp += arrB[i];
+            //逢10进1
+            if(temp>10){
+                temp = temp-10;
+                result[i+1] = 1;
+            }
+            result[i] = temp; //确定位数
+        }
+        //4. 把result数组再次逆序并转化成String
+        StringBuilder sb = new StringBuilder();
+        //是否找到大整数的最高有效位，进行判断
+        boolean findFirst = false;
+        for(int i = result.length-1;i>=0;i--){
+            if(!findFirst){
+                if(result[i]==0) continue;//跳出这次循环，进行下次循环
+            }
+            sb.append(result[i]);//从前往后加
+        }
+        return sb.toString();//转为字符串
+    }
+}
