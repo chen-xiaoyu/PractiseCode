@@ -1,0 +1,82 @@
+/*
+* 解法1：任意一种时间复杂度为O(nlogn)的排序算法（如快速排序）给原数组排序，然后遍历排序好的数组，并对每两个相邻元素求差，
+* 最终得到最大差值。
+* 解法2：(数值差距不悬殊，效率高)计数排序的思想：先求出原数组的最大值max和最小值min的区间长度k(k=max-min+1),以及偏移量d=min。创建一个长度为k的
+*新数组array对应下标的值+1。例如原数组元素的值为n,则将Array[n-min]的值+1.遍历结束后，array的一部分元素值变成了1或更高的
+* 数值，一部分元素值仍然是0.遍历新数组array，统计出array中最大连续出现0值的次数+1,即为相邻元素最大差值。
+* 解法3: （最需记录桶内的最大和最小值，时间复杂度稳定在O（n））利用桶排序的思想。原数组的长度n,创建出n个桶，每一个桶代表一个区间范围。其中第一个桶从原数组的最小值min开始，区间
+* 跨度是（max-min）/（n-1）。遍历原数组，把原数组每一个元素插入到对应的桶中，记录每一个桶的最大值和最小值。遍历所有的桶，
+*统计出每个桶的最大值，和这个桶右侧非空桶的最小值的差，数值最大的差即为原数组排序后的相邻最大差值。
+* */
+import java.lang.*;
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String str = sc.nextLine();
+        String[] strNew = str.split("，");
+        int len = strNew.length;
+        int[] arr =new int[len];
+        for(int i=0;i<len;i++){
+            arr[i]=Integer.parseInt(strNew[i]);
+        }
+        System.out.println(getMaxSortedDistance(arr));
+    }
+
+    /*
+    * 桶
+    * */
+    private static class Bucket{
+        Integer min;
+        Integer max;
+    }
+    private static int getMaxSortedDistance(int[] arr){
+        if(arr == null || arr.length==0) return 0;
+        //1.获得数值的最大和最小值
+        int min = arr[0];
+        int max = arr[0];
+        //从1开始
+        for(int i = 1;i<arr.length;i++){
+            if(min>arr[i]) min = arr[i];
+            if(max<arr[i]) max = arr[i];
+        }
+        int d =max-min;//极值之间的差距
+        //特殊情况：为0
+        if(d==0) return 0;
+
+        //2.初始化桶
+        int bucketNum = arr.length;
+        //桶的数量是数组的长度
+        Bucket[] buckets = new Bucket[bucketNum];
+        for(int i=0;i<bucketNum;i++){
+            //对i数组进行buckets
+            buckets[i] = new Bucket();
+        }
+
+        //3.遍历原始数组，确定每个桶的最小最大值
+        for(int i=0;i<arr.length;i++){
+            //确定数组元素所归属的桶下标(括号全整)
+            int index = ((arr[i]-min)*(bucketNum-1)/d);
+            //桶中只包含2个值，最大值和最小值
+            if(buckets[index].min==null || buckets[index].min>arr[i]){
+                buckets[index].min=arr[i];
+            }
+            if(buckets[index].max==null || buckets[index].max>arr[i]){
+                buckets[index].max=arr[i];
+            }
+        }
+
+        //4.遍历桶，寻找最大差值
+        int leftMax = buckets[0].max;//使用临时变量leftMax,在每一轮迭代时存储当前左侧桶的最大值
+        int maxDistance = 0;
+        for(int i =1;i<bucketNum;i++){
+            if(buckets[i].min==null) continue;
+            if(buckets[i].min-leftMax>maxDistance){
+                maxDistance = buckets[i].min-leftMax;
+            }
+            leftMax = buckets[i].max;
+        }
+        return maxDistance;
+    }
+}
