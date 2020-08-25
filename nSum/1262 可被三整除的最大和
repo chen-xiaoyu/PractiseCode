@@ -1,0 +1,29 @@
+class Solution {
+    public int maxSumDivThree(int[] nums) {
+    //建立两个数组存储余数为1,2的数字
+        List<Integer> one = new ArrayList<Integer>();
+        List<Integer> two = new ArrayList<Integer>();
+        int sum = 0;
+        for(int i: nums){
+            if(i%3==1) one.add(i);
+            if(i%3==2) two.add(i);
+            sum +=i;
+        }
+        ///对余数为1,2数字进行大小排序，越前面的数字越小
+        Collections.sort(one);
+        Collections.sort(two);
+        int res = sum%3;
+        int ans = 0;
+        if(res==0) return sum;
+        //进行判断
+        if(res==1){
+            if(one.size()>0) ans = Math.max(ans,sum-one.get(0));
+            if(two.size()>=2) ans = Math.max(ans,sum-two.get(0)-two.get(1));
+        }
+        if(res==2){
+            if(two.size()>0) ans = Math.max(ans, sum-two.get(0));
+            if(one.size()>=2) ans = Math.max(ans, sum-one.get(0)-one.get(1));
+        }
+        return ans;
+    }
+}
