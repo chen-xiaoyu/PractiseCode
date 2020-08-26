@@ -1,0 +1,29 @@
+class Solution {
+    public static int[][] dirs={{-1,0},{1,0},{0,-1},{0,1}};
+    public static int row,column;
+    public int longestIncreasingPath(int[][] matrix) {  
+        if(matrix.length==0||matrix[0].length==0||matrix==null) return 0;
+        row = matrix.length;
+        column = matrix[0].length;
+        int res=0;
+        int[][] memo= new int[row][column];//设置一个备忘录，并初始化用来存储每个点的最长递增路径长
+        for(int i=0;i<row;i++){
+            for(int j=0;j<column;j++){
+                res = Math.max(res, dfs(matrix,i,j,memo));
+            }
+        } 
+        return res;
+    }
+
+    public static int dfs(int[][] matrix,int i,int j, int[][] memo){
+        if(memo[i][j]!=0) return memo[i][j];
+        ++memo[i][j];//使每个被调用的matrix[i][j]值为1
+        for(int[] d:dirs){//二维数组的for循环
+            int newRow = i+d[0], newColumn = j+d[1];//四个方向遍历
+            if(newRow>=0 && newRow<row && newColumn>=0 && newColumn<column && matrix[newRow][newColumn]>matrix[i][j]){//需要四个方向都找，找最大值
+                memo[i][j] = Math.max(memo[i][j],dfs(matrix, newRow, newColumn, memo)+1);
+            }
+        }
+        return memo[i][j];
+    }
+}
