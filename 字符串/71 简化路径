@@ -1,0 +1,26 @@
+class Solution {
+    public String simplifyPath(String path) {
+        if(path==null || path.length()==0) return "/";
+        String[] str = path.split("/");
+        Stack<String> stack = new Stack<>();
+        for(int i=0;i<str.length;i++){
+            if(!stack.isEmpty() && str[i].equals("..")){
+                stack.pop();
+            }
+            else if(!str[i].equals("..") &&!str[i].equals(".") &&!str[i].equals("")){
+                stack.push(str[i]);
+            }
+        }
+        //特殊情况考虑
+        if(stack.isEmpty()){
+            return "/";
+        }
+        StringBuffer sb = new StringBuffer();
+        //拼接成字符串
+        for(int i=0;i<stack.size();i++){
+            sb.append("/"+stack.get(i));
+        }
+        //sb转换为字符串
+        return sb.toString();
+    }
+}
