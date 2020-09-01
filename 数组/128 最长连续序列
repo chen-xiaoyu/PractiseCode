@@ -8,6 +8,7 @@
 */
 class Solution {
     public int longestConsecutive(int[] nums) {
+        if(nums==null ||nums.length==0) return 0;
         //不重复数字
         Set<Integer> numSet = new HashSet<Integer>();
         for(int num:nums){
