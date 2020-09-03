@@ -1,0 +1,29 @@
+/*
+老师想给孩子们分发糖果，有 N 个孩子站成了一条直线，老师会根据每个孩子的表现，预先给他们评分。
+你需要按照以下要求，帮助老师给这些孩子分发糖果：
+每个孩子至少分配到 1 个糖果。
+相邻的孩子中，评分高的孩子必须获得更多的糖果。
+那么这样下来，老师至少需要准备多少颗糖果呢？
+时间复杂度：O(n)O(n) 。长度为 nn 数组 candiescandies 被遍历了 3 次。
+空间复杂度：O(n)O(n) 。数组 candiescandies 长度为 nn 。
+*/
+class Solution {
+    public int candy(int[] ratings) {
+        if(ratings==null ||ratings.length==0) return 0;
+        int[] num = new int[ratings.length];
+        Arrays.fill(num,1);
+        for(int i=1;i<ratings.length;i++){
+            if(ratings[i-1]<ratings[i]){
+                num[i]=num[i-1]+1;
+            }
+        }
+        int sum=num[ratings.length-1];//将值赋值成最后一位
+        for(int i=ratings.length-2;i>=0;i--){
+            if(ratings[i]>ratings[i+1]){
+                num[i] = Math.max(num[i],num[i+1]+1);
+            }
+            sum+=num[i];
+        }
+        return sum;
+    }
+}
