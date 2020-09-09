@@ -1,0 +1,33 @@
+//最长递增子序列的二维数组版本。注意先a[0]升序，后a[1]降序
+class Solution {
+    public int maxEnvelopes(int[][] envelopes) {
+        if(envelopes==null||envelopes.length==0||envelopes[0].length==0) return 0;
+        Arrays.sort(envelopes,new Comparator<int[]>(){
+            public int compare(int[] o1,int[] o2){
+                return o1[0]==o2[0]?o2[1]-o1[1]:o1[0]-o2[0];
+            }
+        });
+        int[] envH = new int[envelopes.length];
+        for(int i=0;i<envelopes.length;i++){
+            envH[i]=envelopes[i][1];
+        }
+        return lengthOfLIS(envH);
+    }
+    
+    public int lengthOfLIS(int[] envH){
+        int[] dp= new int[envH.length];
+        Arrays.fill(dp,1);
+        for(int i=1;i<envH.length;i++){
+            for(int j=0;j<i;j++){
+                if(envH[i]>envH[j]){
+                    dp[i]=Math.max(dp[i],dp[j]+1);
+                }
+            }
+        }
+        int res=0;
+        for(int i=0;i<envH.length;i++){
+            res=Math.max(res,dp[i]);
+        }
+        return res;
+    }
+}
