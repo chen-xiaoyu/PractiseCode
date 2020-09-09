@@ -1,3 +1,20 @@
+//首先随便猜一个近似值 xx，然后不断令 xx 等于 xx 和 a/xa/x 的平均数，迭代个六七次后 xx 的值就已经相当精确了。
+//牛顿迭代法
+class Solution {
+    int res=0;
+    public int mySqrt(int x) {
+        res=x;
+        if(x==0) return 0;
+        return ((int)(sqrt(x)));
+    }
+    
+    private double sqrt(double x){
+        double r=(x+res/x)/2;
+        if(r==x) return x;
+        else return sqrt(r);
+    }
+}
+//二分法
 class Solution {
     public int mySqrt(int x) {
         int l = 0, r = x, ans = -1;
