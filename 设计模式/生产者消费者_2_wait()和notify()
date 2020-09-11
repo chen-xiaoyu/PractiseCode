@@ -1,0 +1,41 @@
+//2.使用 Object 的 wait()和 notify()实现
+PriorityQueue<Integer> queue = new PriorityQueue<Integer>(10);//充当缓冲区
+
+class Consumer extends Thread {
+    public void run() {
+        while (true) {
+            synchronized (queue) {
+                while (queue.size() == 0) {//队列空的条件下阻塞
+                    try {
+                        queue.wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                        queue.notify();
+                    }
+                }
+                queue.poll(); // 每次移走队首元素
+                queue.notify();
+            }
+        }
+    }
+}
+
+class Producer extends Thread {
+    public void run() {
+        while (true) {
+            synchronized (queue) {
+                while (queue.size() == 10) {//队列满了的条件下阻塞
+                    try {
+                        queue.wait();
+                    
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                        queue.notify();
+                    }
+                }             
+                queue.offer(1); // 每次插入一个元素
+                queue.notify();
+            }
+        }
+    }
+}
