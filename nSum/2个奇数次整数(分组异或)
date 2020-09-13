@@ -1,0 +1,52 @@
+//遍历数组，进行异或运算，得到异或运算的最终结果，等同于A和B进行异或运算的结果。这个结果中，至少有一个二进制位是1.
+按照二进制中的是1的位数，将数组分为2部分。对每个组中的数，进行异或，找出每部分中唯一的奇数次整数即可。
+/*
+Q:在一个无序数组里有99个不重复的正整数，范围是1-100，唯独缺少1个1-100中的整数。如何找出这个缺失的整数？
+A：1. 创建一个哈希表，以1-100这100个整数为key。然后遍历整个数组，每读到一个整数，就定位到哈希表中对应的key，然后删除这个key。时间负责度是O（n）,空间复杂度是O（n）;
+2. 先排序，后遍历有序的数组，如果发现某两个相邻元素并不连续，说明缺少的就是这两个元素之间的整数。
+3. 简单高效，先算出1-00的和，一次减去组里的元素，最后得到的差值，就是缺失的整数。时间复杂度O（n）,空间复杂度O（1）。
+Q: 一个无序数组里有若干个正整数，范围是1-100，其中99个整数都出现了偶数次，只有1个整数出现了奇数次，如何找出这个奇数次的整数？
+A：遍历整个数组，依次做异或运算。由于异或运算在进行位运算时，相同为0，不同为1，因此所有出现偶数次的整数都会互相抵消变为0，只有唯一出现奇数次的整数会被留下。
+*/
+import java.util.Scanner;
+
+public class singleTwoNum {
+    public static void main(String[] args) {
+        Scanner sc =new Scanner(System.in);
+        int n =sc.nextInt();
+        int[] arr = new int[n];
+        for(int i=0;i<n;i++){
+            arr[i]=sc.nextInt();
+        }
+        sc.close();
+        int[] res = findSingleNum(arr);
+        System.out.println(res[0]+" "+res[1]);
+    }
+
+    private static int[] findSingleNum(int[] arr){
+        if(arr==null||arr.length==0) return null;
+        int xor=0;
+        int len=arr.length;
+        //先进行异或
+        for(int i=0;i<len;i++){
+            xor^=arr[i];
+        }
+        //判断是否存在不同的数
+        if(xor==0) return null;
+        int xorPos=1;
+        while(0==(xorPos&xor)){
+            xorPos<<=1;//右移一位
+        }
+        //第二次异或找值
+        int[] res = new int[2];
+        for(int i=0;i<len;i++){
+            if(0==(xorPos&arr[i])){
+                res[0]^=arr[i];
+            }else{
+                res[1]^=arr[i];
+            }
+        }
+        return res;
+    }
+}
+
