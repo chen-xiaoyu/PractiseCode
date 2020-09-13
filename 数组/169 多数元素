@@ -1,0 +1,27 @@
+//直接排序
+class Solution {
+    public int majorityElement(int[] nums) {
+        if(nums==null||nums.length==0) return 0;
+        int len=nums.length;
+        Arrays.sort(nums);
+        return nums[len/2];
+    }
+}
+
+//hashmap
+class Solution {
+    public int majorityElement(int[] nums) {
+        if(nums==null||nums.length==0) return 0;
+        HashMap<Integer,Integer> map = new HashMap<>();
+        int len=nums.length;
+        int res =0;
+        for(int i=0;i<len;i++){
+            map.put(nums[i],map.getOrDefault(nums[i],0)+1);
+            if(map.get(nums[i])>len/2){
+                res =nums[i];
+                break;
+            }
+        }
+        return res;
+    }
+}
