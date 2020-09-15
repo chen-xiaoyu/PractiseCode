@@ -1,0 +1,28 @@
+class Solution {
+//hashmap用于保存里面的值，类似备忘录
+    HashMap<Integer,List<String>> map = new HashMap<>();
+    public List<String> wordBreak(String s, List<String> wordDict) {
+        Set<String> wordDictSet = new HashSet(wordDict);
+        return wordB(s,wordDictSet,0);
+    }
+
+    private List<String> wordB(String s, Set<String> wordDictSet, int start){
+        if(map.containsKey(start)){//备忘录进行记录
+            return map.get(start);
+        }
+        LinkedList<String> res = new LinkedList<>();
+        if(start==s.length()){
+            res.add("");
+        }
+        for(int i=start+1;i<=s.length();i++){
+            if(wordDictSet.contains(s.substring(start,i))){
+                List<String> list = wordB(s,wordDictSet,i);
+                for(String l:list){
+                    res.add(s.substring(start,i)+(l.equals("")?"":" ")+l);
+                }
+            }
+        }
+        map.put(start,res);
+        return res;
+    }
+}
