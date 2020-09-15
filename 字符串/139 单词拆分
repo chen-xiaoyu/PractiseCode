@@ -1,0 +1,20 @@
+class Solution {
+    public boolean wordBreak(String s, List<String> wordDict) {
+        Set<String> wordDictSet = new HashSet(wordDict);
+        int len =s.length();
+        boolean[] dp =new boolean[len+1];
+        dp[0] = true;
+        for(int i=1;i<=len;i++){
+            for(int j=0;j<i;j++){
+                //优化，先对dp[i]和dp[j]进行判断
+                if(dp[i]==true) break;
+                if(dp[j]==false) continue;
+                if(dp[j]&&wordDictSet.contains(s.substring(j,i))){
+                    dp[i]=true;
+                    break;//结束这个循环
+                }
+            }
+        }
+        return dp[len];
+    }
+}
