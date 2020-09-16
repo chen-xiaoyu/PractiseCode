@@ -1,0 +1,11 @@
+class Solution {
+    public int trailingZeroes(int n) {
+        //阶乘容易溢出，实时更新n的值，用5的数量去判断
+        int zero = 0;
+        while(n>0){
+            zero+=n/5;
+            n=n/5;
+        }
+        return zero;
+    }
+}
