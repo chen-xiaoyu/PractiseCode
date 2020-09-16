@@ -1,0 +1,21 @@
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        char[] str = s.toCharArray() ;
+        int left = 0 , right = 0 , n = str.length ;
+        int max = Integer.MIN_VALUE ;
+        HashMap<Character,Integer> map = new HashMap<>() ;
+        while(right < n){
+            if(map.containsKey(str[right])){      //当前字符已在滑动窗口内
+                max = Math.max(max,right - left) ;  //记录遍历至此最长的符合题意的字符串。right-left为当前窗口大小
+                int temp = map.get(str[right]) ;
+                for(int i = left ; i <= temp ; i++){ 
+                    map.remove(str[i]) ;     // 清除部分map记录
+                }
+                left = temp + 1 ;   // 调整滑动窗口的左端点
+            }
+            map.put(str[right],right) ;
+            right++ ;
+        }
+        return Math.max(max,right - left) ;
+    }
+}
