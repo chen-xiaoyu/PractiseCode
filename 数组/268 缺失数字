@@ -1,0 +1,12 @@
+class Solution {
+//用和进行相减
+    public int missingNumber(int[] nums) {
+        if(nums==null||nums.length==0) return -1;
+        int len=nums.length;
+        int sum = len*(len+1)/2;
+        for(int i=0;i<len;i++){
+            sum-=nums[i];
+        }
+        return sum;
+    }
+}
