@@ -1,0 +1,11 @@
+public class Solution {
+    // you need to treat n as an unsigned value
+    public int hammingWeight(int n) {
+        int bites=0;
+        while(n!=0){
+            bites++;
+            n&=(n-1);//把最后一位1变为0
+        }
+        return bites;
+    }
+}
