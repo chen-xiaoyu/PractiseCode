@@ -1,0 +1,21 @@
+class Solution {
+    public int minArray(int[] numbers) {
+        if(numbers==null||numbers.length==0) return -1;
+        int len=numbers.length;
+        int start=0;
+        int end=len-1;
+        while(start<end){
+        //二分法 主要对mid和end的信息进行判断
+            int mid=start+(end-start)/2;
+            if(numbers[mid]>numbers[end]){
+                start=mid+1;
+            }
+            else if(numbers[mid]<numbers[end]){
+                end=mid;
+            }else{
+                end-=1;
+            } 
+        }
+        return numbers[start];
+    }
+}
