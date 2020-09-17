@@ -1,0 +1,18 @@
+class Solution {
+    public boolean findNumberIn2DArray(int[][] matrix, int target) {
+        if(matrix==null||matrix.length==0||matrix[0].length==0) return false;
+        int right=matrix[0].length-1;
+        int top=0;
+        while(top<matrix.length&&right>=0){
+            int temp = matrix[top][right];
+            if(temp==target) return true;
+            if(temp>target){
+                right--;
+            }
+            if(temp<target){
+                top++;
+            }
+        }
+        return false;
+    }
+}
