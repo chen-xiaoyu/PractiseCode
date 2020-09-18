@@ -1,0 +1,30 @@
+class Solution {
+    public String replaceSpace(String s) {
+        //字符串
+        if(s==null||s.length()==0) return "";
+        int len=s.length();
+        int spaceNum=0;
+        //空格数量
+        for(int i=0;i<len;i++){
+            if(s.charAt(i)==' '){
+                spaceNum++;
+            }
+        }
+        int newLen = len+2*spaceNum;
+        //进行添加
+        StringBuilder sb =new StringBuilder();
+        sb.setLength(newLen);
+        int oldIndex=len-1;
+        int newIndex=newLen-1;
+        for(;oldIndex>=0&&oldIndex<newLen;oldIndex--){
+            if(s.charAt(oldIndex)==' '){
+                sb.setCharAt(newIndex--,'0');
+                sb.setCharAt(newIndex--,'2');
+                sb.setCharAt(newIndex--,'%');
+            }else{
+                sb.setCharAt(newIndex--,s.charAt(oldIndex));
+            }
+        }
+        return sb.toString();
+    }
+}
