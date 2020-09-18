@@ -1,0 +1,24 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public boolean isSubStructure(TreeNode A, TreeNode B) {
+        if(A==null||B==null) return false;
+        return SubTree(A,B)||isSubStructure(A.left,B)||isSubStructure(A.right,B);
+    }
+
+    private boolean SubTree(TreeNode A, TreeNode B){
+        //子结构判断
+        if(B==null) return true;
+        if(A==null) return false;
+        if(A.val!=B.val) return false;
+        //子结构 应该就左右点判断
+        return SubTree(A.left,B.left)&&SubTree(A.right,B.right);
+    }
+}
