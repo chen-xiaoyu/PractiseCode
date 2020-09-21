@@ -1,0 +1,25 @@
+class Solution {
+    public int[] exchange(int[] nums) {
+        if(nums==null||nums.length==0) return nums;
+        int len=nums.length;
+        int left=0;
+        int right=len-1;
+        while(left<right){
+            //满足条件，自动往后走
+            while(left<right&&nums[left]%2==1){
+                left++;
+            }
+            while(left<right&&nums[right]%2==0){
+                right--;
+            }
+            swap(nums,left,right);
+        }
+        return nums;
+    }
+
+    private void swap(int[] nums, int l, int r){
+        int temp=nums[l];
+        nums[l]=nums[r];
+        nums[r]=temp;
+    }
+}
