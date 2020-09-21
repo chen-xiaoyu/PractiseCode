@@ -1,0 +1,24 @@
+class Solution {
+    public boolean isNumber(String s) {
+        if(s==null||s.length()==0) return false;//空字符串不能表示数字
+        boolean hasNum=false, hasDec =false,hasE=false;
+        char[] str = s.trim().toCharArray();//转为为字符数组
+        for(int i=0;i<str.length;i++){
+            if(str[i]>='0'&&str[i]<='9') hasNum= true;
+            else if(str[i]=='.'){
+                if(hasDec||hasE) return false;
+                else hasDec=true;
+            }
+            else if(str[i]=='e'||str[i]=='E'){
+                if(!hasNum||hasE) return false;
+                hasE=true;
+                hasNum=false;//重置，因为e后面也必须加整数
+            }
+            else if(str[i]=='-'||str[i]=='+'){
+                if(i!=0&&str[i-1]!='e'&&str[i-1]!='E') return false;
+            }
+            else return false;//其他非法情况为不合法字符
+        }
+        return hasNum;
+    }
+}
