@@ -1,0 +1,52 @@
+class MinStack {
+    private Stack<Integer> s1;
+    private Stack<Integer> s2;
+    /** initialize your data structure here. */
+    public MinStack() {
+        s1=new Stack<>();
+        s2=new Stack<>();
+    }
+    
+    public void push(int x) {
+        s1.add(x);//栈用add
+        if(s2.isEmpty()){
+            s2.add(x);
+        }
+        else if(x<=s2.peek()){
+            s2.add(x);
+        }
+    }
+    //判断顶部条件
+    public void pop() {
+        if(!s1.isEmpty()){
+            int top =s1.pop();
+            if(top==s2.peek()){
+                s2.pop();
+            }
+        }
+    }
+    //判断为空的条件
+    public int top() {
+        if(!s1.isEmpty()){
+            return s1.peek();
+        }
+        throw new RuntimeException("栈中元素为空，此操作非法");
+    }
+    
+    public int min() {
+        //判断特殊条件
+        if(!s2.isEmpty()){
+            return s2.peek();//不用删除数
+        }
+        throw new RuntimeException("栈中元素为空，此操作非法");
+    }
+}
+
+/**
+ * Your MinStack object will be instantiated and called as such:
+ * MinStack obj = new MinStack();
+ * obj.push(x);
+ * obj.pop();
+ * int param_3 = obj.top();
+ * int param_4 = obj.min();
+ */
