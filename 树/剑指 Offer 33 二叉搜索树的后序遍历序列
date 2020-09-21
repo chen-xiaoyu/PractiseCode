@@ -1,0 +1,24 @@
+class Solution {
+    public boolean verifyPostorder(int[] postorder) {
+        //空的存在 后序遍历
+        if(postorder==null||postorder.length==0) return true;
+        int len =postorder.length;
+        int root = postorder[len-1];//后序遍历头节点
+        int i=0;
+        for(;i<len-1;i++){
+            if(postorder[i]>root) break;//找到左右节点分隔
+        }
+        for(int j=i;j<len-1;j++){
+            if(postorder[j]<root) return false;
+        }
+        boolean left=true;
+        boolean right=true;//默认都成立
+        if(i>0){
+           left = verifyPostorder(Arrays.copyOfRange(postorder,0,i)); 
+        }
+        if(i<len-1){
+            right=verifyPostorder(Arrays.copyOfRange(postorder,i,len-1));
+        }
+        return left&&right;
+    }
+}
