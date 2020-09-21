@@ -1,0 +1,11 @@
+class Solution {
+    public int[] printNumbers(int n) {
+    //一共多少位
+        int num =(int) (Math.pow(10,n))-1;
+        int[] res = new int[num];
+        for(int i=1;i<=num;i++){
+            res[i-1]=i;
+        }
+        return res;
+    }
+}
