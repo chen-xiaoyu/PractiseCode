@@ -1,0 +1,14 @@
+class Solution {
+    public int cuttingRope(int n) {
+        if(n<=3) return n-1;
+        else if(n==4) return 4;
+        //类型转换
+        long sum=1L;
+        int p =(int)1e9+7;
+        while(n>4){
+            sum=sum*3%p;
+            n-=3;
+        }
+        return (int)(sum*n%p);
+    }
+}
