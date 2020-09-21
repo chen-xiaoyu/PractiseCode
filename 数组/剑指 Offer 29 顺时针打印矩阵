@@ -1,0 +1,32 @@
+class Solution {
+    public int[] spiralOrder(int[][] matrix) {
+    //返回int[0]
+        if(matrix==null||matrix.length==0||matrix[0].length==0) return new int[0];;
+        int row = matrix.length;
+        int col= matrix[0].length;
+        int n=row*col;
+        int[] res =new int[n];
+        int top=0,below=row-1,left=0,right=col-1;
+        int index=0;
+        while(top<=below&&left<=right){
+            for(int i=left;i<=right;i++){
+                res[index++]=matrix[top][i];
+            }
+            for(int j=top+1;j<=below;j++){
+                res[index++]=matrix[j][right];
+            }
+            if(top!=below){
+                for(int i=right-1;i>left;i--){
+                    res[index++]=matrix[below][i];
+                }
+            }
+            if(left!=right){
+                for(int j=below;j>top;j--){
+                    res[index++]=matrix[j][left];
+                }
+            }
+            left++;right--;top++;below--;
+        }
+        return res;
+    }
+}
