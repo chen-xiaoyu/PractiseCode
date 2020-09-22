@@ -1,0 +1,39 @@
+class Solution {
+    public int[] getLeastNumbers(int[] arr, int k) {
+        if(arr==null||arr.length==0||k>arr.length||k<=0) return new int[0];
+        //大根堆
+        PriorityQueue<Integer> res = new PriorityQueue<Integer>(k,new Comparator<Integer>(){
+            @Override
+            public int compare(Integer o1, Integer o2){
+                return o2.compareTo(o1);
+            }
+        });
+        for(int i=0;i<arr.length;i++){
+            if(res.size()!=k){
+                res.offer(arr[i]);
+            }
+            else if(arr[i]<res.peek()){
+                res.poll();
+                res.offer(arr[i]);
+            }
+        }
+        int[] r = new int[k];
+        for(int i=0;i<k;i++){
+            r[i]=res.poll();
+        }
+        return r;
+    }
+}
+
+//简单排序
+class Solution {
+    public int[] getLeastNumbers(int[] arr, int k) {
+        if(arr==null||arr.length==0) return null;
+        Arrays.sort(arr);
+        int[] res=new int[k];
+        for(int i=0;i<k;i++){
+            res[i]=arr[i];
+        }
+        return res;
+    }
+}
