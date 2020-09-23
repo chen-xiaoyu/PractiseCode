@@ -1,0 +1,29 @@
+class MedianFinder {
+    Queue<Integer> minStack,maxStack;
+    /** initialize your data structure here. */
+    public MedianFinder() {
+        minStack = new PriorityQueue<>();
+        maxStack = new PriorityQueue<>((x,y)->(y-x));//大根堆，头部是最大的，保存较小的一半
+    }
+    
+    public void addNum(int num) {
+        if(minStack.size()!=maxStack.size()){
+            minStack.add(num);
+            maxStack.add(minStack.poll());
+        }else{
+            maxStack.add(num);
+            minStack.add(maxStack.poll());//小根堆多放元素，放的较大元素
+        }
+    }
+    
+    public double findMedian() {
+        return minStack.size()!=maxStack.size()?minStack.peek():(minStack.peek()+maxStack.peek())/2.0;//小数点
+    }
+}
+
+/**
+ * Your MedianFinder object will be instantiated and called as such:
+ * MedianFinder obj = new MedianFinder();
+ * obj.addNum(num);
+ * double param_2 = obj.findMedian();
+ */
