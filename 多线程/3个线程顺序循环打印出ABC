@@ -1,0 +1,35 @@
+public class ThreadPoll {
+    private static String lastCompleteStr = "C";
+
+    public static void main(String[] args) {
+        new Thread(new PrintTask("A", "C")).start();
+        new Thread(new PrintTask("B", "A")).start();
+        new Thread(new PrintTask("C", "B")).start();
+    }
+
+    static class PrintTask implements Runnable {
+        private String cur;
+        private String waitLastStr;
+        public PrintTask(String cur, String waitLastStr) {
+            this.cur = cur;
+            this.waitLastStr = waitLastStr;
+        }
+        @Override
+        public void run() {
+            try {
+                while (true) {
+                    synchronized (ThreadPoll .class) {
+                        while (!lastCompleteStr.equals(waitLastStr)) {
+                            ThreadPoll .class.wait();
+                        }
+                        System.out.print(cur);
+                        lastCompleteStr = cur;
+                        ThreadPoll .class.notifyAll();
+                    }
+                }
+            } catch (Exception e ) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
