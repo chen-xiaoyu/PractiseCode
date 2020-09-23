@@ -1,0 +1,46 @@
+/*
+// Definition for a Node.
+class Node {
+    public int val;
+    public Node left;
+    public Node right;
+
+    public Node() {}
+
+    public Node(int _val) {
+        val = _val;
+    }
+
+    public Node(int _val,Node _left,Node _right) {
+        val = _val;
+        left = _left;
+        right = _right;
+    }
+};
+*/
+class Solution {
+    Node pre,head;
+    public Node treeToDoublyList(Node root) {
+        if(root==null) return null;
+        //中序遍历将其都转换
+        dfs(root);
+        head.left=pre;
+        pre.right=head;
+        return head;
+    }
+    //pre用于记录双向链表中位于cur左侧的节点，即上一次迭代中的cur,
+    private void dfs(Node cur){
+        if(cur==null) return;
+        //中序遍历将其都转换
+        dfs(cur.left);
+        if(pre!=null){
+            pre.right=cur;
+        }else{
+        //当pre==null时，cur左侧没有节点,即此时cur为双向
+            head=cur;
+        }
+        cur.left=pre;
+        pre=cur;////pre指向当前的cur，往下走
+        dfs(cur.right);//全部迭代完成后，pre指向双向链表中的尾节点
+    }
+}
