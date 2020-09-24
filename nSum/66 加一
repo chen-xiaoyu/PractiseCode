@@ -1,0 +1,14 @@
+class Solution {
+    public int[] plusOne(int[] digits) {
+        int len=digits.length;
+        for(int i=len-1;i>=0;i--){
+            digits[i]++;
+            digits[i]=digits[i]%10;
+            if(digits[i]!=0) return digits;
+        }
+        //前面几位都为进位
+        digits = new int[len+1];
+        digits[0]=1;//首位进1即可,其他位为0
+        return digits;
+    }
+}
