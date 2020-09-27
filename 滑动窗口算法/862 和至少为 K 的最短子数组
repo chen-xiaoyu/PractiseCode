@@ -1,0 +1,24 @@
+class Solution {
+    public int shortestSubarray(int[] A, int K) {
+        int N = A.length;
+        long[] P = new long[N+1];
+        for (int i = 0; i < N; ++i)
+            P[i+1] = P[i] + (long) A[i];
+        int ans = N+1; // N+1 is impossible
+        Deque<Integer> monoq = new LinkedList(); //opt(y) candidates, as indices of P
+
+        for (int y = 0; y < P.length; ++y) {
+            //当我们遇到了一个新的下标 y 时，我们会在队尾移除若干元素，
+            //直到 P[x0], P[x1], ..., P[y] 单调递增。这同样是为了满足性质一。
+            // Want opt(y) = largest x with P[x] <= P[y] - K;
+            while (!monoq.isEmpty() && P[y] <= P[monoq.getLast()])
+                monoq.removeLast();
+            while (!monoq.isEmpty() && P[y] >= P[monoq.getFirst()] + K)
+                ans = Math.min(ans, y - monoq.removeFirst());
+
+            monoq.addLast(y);
+        }
+
+        return ans < N+1 ? ans : -1;
+    }
+}
